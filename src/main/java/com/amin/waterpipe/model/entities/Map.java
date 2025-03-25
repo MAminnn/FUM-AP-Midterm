@@ -1,0 +1,39 @@
+package com.amin.waterpipe.model.entities;
+
+import com.amin.waterpipe.model.entities.pipe.Block;
+import com.amin.waterpipe.model.entities.pipe.NormalPipe;
+import com.amin.waterpipe.model.valueobjects.Coordinate;
+
+public class Map {
+    public final int Width;
+    public final int Height;
+
+    private final Block[] _blocks;
+
+    public Map(int width, int height, Block[] blocks) {
+        this.Width = width;
+        this.Height = height;
+
+        this._blocks = blocks;
+    }
+
+    public Block getBlock(Coordinate coordinate) {
+        for (Block block : _blocks) {
+            if (block.getCoordinate().equals(coordinate)) {
+                return block;
+            }
+        }
+        return null;
+    }
+
+    public void rotatePipe(Coordinate coordinate, boolean clockWise) {
+        var pipe = this.getBlock(coordinate).get_pipe();
+        if (pipe instanceof NormalPipe) {
+            if (clockWise) {
+                ((NormalPipe) pipe).rotateClockWise();
+            } else {
+                ((NormalPipe) pipe).rotateCounterClockWise();
+            }
+        }
+    }
+}

@@ -5,9 +5,11 @@ import com.amin.waterpipe.view.scenes.Menu;
 import com.amin.waterpipe.view.scenes.SceneType;
 import javafx.animation.*;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,8 +26,8 @@ public class SceneManager {
         this._stage = stage;
         this._scenes = new HashMap<>();
 
-        this._scenes.put(SceneType.MENU, Menu.getScene());
-        this._scenes.put(SceneType.LEVEL_ONE, LevelOne.getScene());
+        this._scenes.put(SceneType.MENU, Menu.initScene());
+        this._scenes.put(SceneType.LEVEL_ONE, LevelOne.initScene());
     }
 
     public static void initialize(Stage stage) throws Exception {
@@ -39,23 +41,33 @@ public class SceneManager {
         return _sceneManager;
     }
 
-    public void switchScene(Scene origin, SceneType sceneType, boolean centerOnScreen) {
-        Scene scene = _scenes.get(sceneType);
+    public void switchScene(Scene origin, SceneType sceneType, boolean centerOnScreen, boolean brandNew) {
+        Scene scene;
+        if (brandNew) {
+            switch (sceneType) {
+                case SceneType.LEVEL_ONE -> scene = LevelOne.initScene();
+                case SceneType.MENU -> scene = Menu.initScene();
+                default -> scene = null;
+            }
+        } else {
+            scene = _scenes.get(sceneType);
+        }
 
         var fadeOutTL = getFadeOutTimeLine();
 
+        // Fade out cut scene
+        Pane blankWindow = new Pane();
+        blankWindow.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, CornerRadii.EMPTY, Insets.EMPTY)));
+        Scene fadeOutCutScene = new Scene(blankWindow, scene.getWidth(), scene.getHeight());
+        fadeOutCutScene.setFill(Color.WHITESMOKE);
+        _stage.setScene(fadeOutCutScene);
+
         fadeOutTL.setOnFinished(e -> {
 
-
             // Display a dark window before the new scene
-            var darkWindow = new VBox();
-            darkWindow.setBackground(new Background(
-                    new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)
-            ));
-            Scene tempScene = new Scene(darkWindow, scene.getWidth(), scene.getHeight());
+            Scene cutScene = new Scene(new Pane(), scene.getWidth(), scene.getHeight());
 
-
-            _stage.setScene(tempScene);
+            _stage.setScene(cutScene);
             _stage.sizeToScene();
 
             if (centerOnScreen) {
@@ -84,10 +96,11 @@ public class SceneManager {
         double posY = _stage.getY();
         var shrinkRatio = 0.15;
 
-        int frames = 15;
+        int frames = 20;
 
         Timeline fadeOutTL = new Timeline();
         var fadeOutDuration = Duration.millis(180);
+
         for (int i = 0; i <= frames; i++) {
             var frac = (double) i / frames;
             fadeOutTL.getKeyFrames().add(new KeyFrame(
@@ -99,9 +112,11 @@ public class SceneManager {
                         _stage.setY(posY + frac * shrinkRatio * stageHeight / 2);
 
                         _stage.setWidth((1 - frac * shrinkRatio) * stageWidth);
+
                         _stage.setHeight((1 - frac * shrinkRatio) * stageHeight);
-                        _stage.getScene().getRoot().setScaleX(1 - frac * shrinkRatio);
-                        _stage.getScene().getRoot().setScaleY(1 - frac * shrinkRatio);
+
+//                        _stage.getScene().getRoot().setScaleX(1 - frac * shrinkRatio);
+//                        _stage.getScene().getRoot().setScaleY(1 - frac * shrinkRatio);
 
 
                         // Fading effect
@@ -145,8 +160,8 @@ public class SceneManager {
                                 _stage.setY(newPosY + (-frac * shrinkRatio + shrinkRatio) * newStageHeight / 2);
 
                                 _stage.getScene().getRoot().setScaleX(1);
-//                                    _stage.getScene().getRoot().setScaleX(frac * shrinkRatio + (1 - shrinkRatio));
-//                                    _stage.getScene().getRoot().setScaleY(frac * shrinkRatio + (1 - shrinkRatio));
+//                                _stage.getScene().getRoot().setScaleX(frac * shrinkRatio + (1 - shrinkRatio));
+//                                _stage.getScene().getRoot().setScaleY(frac * shrinkRatio + (1 - shrinkRatio));
 
                                 // Fading effect
                                 _stage.setOpacity(frac);

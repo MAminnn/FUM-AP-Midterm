@@ -14,4 +14,10 @@ public class StaticPipe extends BasePipe {
     public Coordinate nextCoordinate(Coordinate inputCoordinate) {
         return null;
     }
+
+    @Override
+    protected BasePipe copy() {
+        return new StaticPipe(this.getPipeType(), new Coordinate(this.getCoordinate().x(),
+                this.getCoordinate().y()));
+    }
 }

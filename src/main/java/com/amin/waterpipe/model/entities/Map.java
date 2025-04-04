@@ -26,14 +26,7 @@ public class Map {
         return null;
     }
 
-    public void rotatePipe(Coordinate coordinate, boolean clockWise) {
-        var pipe = this.getBlock(coordinate).get_pipe();
-        if (pipe instanceof NormalPipe) {
-            if (clockWise) {
-                ((NormalPipe) pipe).rotateClockWise();
-            } else {
-                ((NormalPipe) pipe).rotateCounterClockWise();
-            }
-        }
+    public Block[] getBlocks() {
+        return _blocks;
     }
 }

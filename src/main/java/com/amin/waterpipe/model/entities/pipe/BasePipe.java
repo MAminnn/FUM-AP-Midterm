@@ -12,7 +12,7 @@ public abstract class BasePipe {
         this._coordinate = coordinate;
     }
 
-    protected void setPipeType(PipeType pipeType){
+    protected void setPipeType(PipeType pipeType) {
         this._pipeType = pipeType;
     }
 
@@ -24,8 +24,11 @@ public abstract class BasePipe {
         return _coordinate;
     }
 
-
     public abstract Coordinate nextCoordinate(Coordinate inputCoordinate);
 
+    protected abstract BasePipe copy();
 
+    public static BasePipe copy(BasePipe pipe) {
+        return pipe.copy();
+    }
 }

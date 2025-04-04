@@ -10,46 +10,56 @@ public class NormalPipe extends BasePipe {
     }
 
     public void rotateClockWise() {
-        if (this._pipeType.equals(PipeType.HORIZONTAL)) {
-            this.setPipeType(PipeType.VERTICAL);
-        }
-        if (this._pipeType.equals(PipeType.VERTICAL)) {
-            this.setPipeType(PipeType.HORIZONTAL);
-        }
-        if (this._pipeType.equals(PipeType.LEFT_UP)) {
-            this.setPipeType(PipeType.RIGHT_UP);
-        }
-        if (this._pipeType.equals(PipeType.RIGHT_UP)) {
-            this.setPipeType(PipeType.RIGHT_DOWN);
-        }
-        if (this._pipeType.equals(PipeType.RIGHT_DOWN)) {
-            this.setPipeType(PipeType.LEFT_DOWN);
-        }
-        if (this._pipeType.equals(PipeType.LEFT_DOWN)) {
-            this.setPipeType(PipeType.LEFT_UP);
+        switch (this._pipeType) {
+            case PipeType.HORIZONTAL:
+                this.setPipeType(PipeType.VERTICAL);
+                break;
+            case PipeType.VERTICAL:
+                this.setPipeType(PipeType.HORIZONTAL);
+                break;
+            case PipeType.LEFT_UP:
+                this.setPipeType(PipeType.RIGHT_UP);
+                break;
+            case PipeType.RIGHT_UP:
+                this.setPipeType(PipeType.RIGHT_DOWN);
+                break;
+            case PipeType.RIGHT_DOWN:
+                this.setPipeType(PipeType.LEFT_DOWN);
+                break;
+            case PipeType.LEFT_DOWN:
+                this.setPipeType(PipeType.LEFT_UP);
+                break;
         }
 
     }
 
     public void rotateCounterClockWise() {
-        if (this._pipeType.equals(PipeType.HORIZONTAL)) {
-            this.setPipeType(PipeType.VERTICAL);
+        switch (this._pipeType) {
+            case PipeType.HORIZONTAL:
+                this.setPipeType(PipeType.VERTICAL);
+                break;
+
+            case PipeType.VERTICAL:
+                this.setPipeType(PipeType.HORIZONTAL);
+                break;
+
+            case PipeType.RIGHT_UP:
+                this.setPipeType(PipeType.LEFT_UP);
+                break;
+
+            case PipeType.RIGHT_DOWN:
+                this.setPipeType(PipeType.RIGHT_UP);
+                break;
+
+            case PipeType.LEFT_DOWN:
+                this.setPipeType(PipeType.RIGHT_DOWN);
+                break;
+
+            case PipeType.LEFT_UP:
+                this.setPipeType(PipeType.LEFT_DOWN);
+                break;
         }
-        if (this._pipeType.equals(PipeType.VERTICAL)) {
-            this.setPipeType(PipeType.HORIZONTAL);
-        }
-        if (this._pipeType.equals(PipeType.RIGHT_UP)) {
-            this.setPipeType(PipeType.LEFT_UP);
-        }
-        if (this._pipeType.equals(PipeType.RIGHT_DOWN)) {
-            this.setPipeType(PipeType.RIGHT_UP);
-        }
-        if (this._pipeType.equals(PipeType.LEFT_DOWN)) {
-            this.setPipeType(PipeType.RIGHT_DOWN);
-        }
-        if (this._pipeType.equals(PipeType.LEFT_UP)) {
-            this.setPipeType(PipeType.LEFT_DOWN);
-        }
+
 
     }
 
@@ -84,6 +94,12 @@ public class NormalPipe extends BasePipe {
                 return null;
             }
         }
+    }
+
+    @Override
+    protected BasePipe copy() {
+        return new NormalPipe(this.getPipeType(), new Coordinate(this.getCoordinate().x(),
+                this.getCoordinate().y()));
     }
 
 }

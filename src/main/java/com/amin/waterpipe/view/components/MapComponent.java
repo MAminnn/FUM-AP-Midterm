@@ -1,26 +1,24 @@
 package com.amin.waterpipe.view.components;
 
+import com.amin.waterpipe.model.entities.pipe.BasePipe;
 import com.amin.waterpipe.model.entities.pipe.Block;
+import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.enums.PipeType;
-import javafx.animation.Transition;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
+
 
 public class MapComponent extends GridPane {
 
+    private final ArrayList<Block> _blocks;
+    private Runnable _winCheckHandler;
 
     public MapComponent(ArrayList<Block> blocks) {
+
+        this._blocks = blocks;
 
         this.setVgap(0);
         this.setHgap(0);
@@ -54,7 +52,7 @@ public class MapComponent extends GridPane {
                         block.get_pipe().getPipeType().equals(PipeType.ORIGIN)) {
                     pipe = new StaticPipe(pipeImgPath);
                 } else {
-                    pipe = new NormalPipe(pipeImgPath);
+                    pipe = new NormalPipeComponent(pipeImgPath, (NormalPipe) block.get_pipe());
                 }
                 this.add(pipe, block.getCoordinate().y(), block.getCoordinate().x());
             }
@@ -93,5 +91,23 @@ public class MapComponent extends GridPane {
 //
 //        pane.getChildren().add(pipeImg);
 //        this.add(pane, 1, 1, 1, 1);
+    }
+
+    public void setWinCheckHandler(Runnable winCheckHandler) {
+        this._winCheckHandler = winCheckHandler;
+        this.getChildren().forEach(p -> {
+            if (p instanceof NormalPipeComponent) {
+                ((NormalPipeComponent) p).setRotationEventHandler(_winCheckHandler);
+            }
+        });
+
+    }
+
+    public void stopAllAnimations() {
+        this.getChildren().forEach(p -> {
+            if (p instanceof NormalPipeComponent) {
+                ((NormalPipeComponent) p).stopAnimation();
+            }
+        });
     }
 }

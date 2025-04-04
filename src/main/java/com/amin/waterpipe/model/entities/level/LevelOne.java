@@ -9,6 +9,10 @@ import com.amin.waterpipe.model.valueobjects.Coordinate;
 
 public class LevelOne extends BaseLevel {
 
+    public LevelOne() {
+        super();
+    }
+
     @Override
     protected Map mapInitialization() {
         int width = Maps.LevelOneMapTemplate.length; // First dim
@@ -18,10 +22,13 @@ public class LevelOne extends BaseLevel {
             for (int j = 0; j < height; j++) {
                 var pipeType = Maps.LevelOneMapTemplate[i][j];
                 var pipe = pipeType != 0 ? new NormalPipe(PipeType.values()[pipeType], new Coordinate(i, j)) : null;
-                blocks[i * j] = new Block(new Coordinate(i, j), pipe);
+                blocks[width * i + j] = new Block(new Coordinate(i, j), pipe);
             }
         }
         return new Map(width, height, blocks);
     }
 
+    public Map getMap() {
+        return this._map;
+    }
 }

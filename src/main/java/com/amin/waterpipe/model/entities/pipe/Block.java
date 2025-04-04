@@ -19,19 +19,8 @@ public class Block {
         return _pipe;
     }
 
-    //    public Block Left() {
-//        return new Block(new Coordinate(this._coordinate.x() - 1, this._coordinate.y()));
-//    }
-//
-//    public Block Right() {
-//        return new Block(new Coordinate(this._coordinate.x() + 1, this._coordinate.y()));
-//    }
-//
-//    public Block Up() {
-//        return new Block(new Coordinate(this._coordinate.x(), this._coordinate.y() + 1));
-//    }
-//
-//    public Block Down() {
-//        return new Block(new Coordinate(this._coordinate.x(), this._coordinate.y() - 1));
-//    }
+    public static Block copy(Block block) {
+        return new Block(new Coordinate(block.getCoordinate().x(), block._coordinate.y()),
+                block.get_pipe() != null ? BasePipe.copy(block.get_pipe()) : null);
+    }
 }

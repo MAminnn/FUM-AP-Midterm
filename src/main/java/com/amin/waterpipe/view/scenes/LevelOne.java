@@ -4,13 +4,13 @@ package com.amin.waterpipe.view.scenes;
 import com.amin.waterpipe.model.entities.Map;
 import com.amin.waterpipe.model.entities.pipe.Block;
 import com.amin.waterpipe.model.entities.pipe.NormalPipe;
+import com.amin.waterpipe.view.components.ImageButtonComponent;
 import com.amin.waterpipe.view.components.MapComponent;
 import com.amin.waterpipe.view.services.SceneManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.Light;
@@ -29,7 +29,6 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class LevelOne extends Scene {
-
     private Block[] _blocks;
     private Map _correctMap;
     private com.amin.waterpipe.model.entities.level.LevelOne _model;
@@ -128,10 +127,10 @@ public class LevelOne extends Scene {
             ));
             var closeButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/UI/btn/close_2.png")).toString()
             ));
-            var backToMenuButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/UI/btn/menu.png")).toString()
-            ));
-            var nextLevelButton = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/UI/btn/next.png")).toString()
-            ));
+            var backToMenuButton = new ImageButtonComponent(100, Objects.requireNonNull(getClass().getResource("/images/UI/btn/menu.png")).toString(),
+                    root.widthProperty(), root.heightProperty(), backToMenuEventHandler);
+            var nextLevelButton = new ImageButtonComponent(100, Objects.requireNonNull(getClass().getResource("/images/UI/btn/next.png")).toString(),
+                    root.widthProperty(), root.heightProperty(), nextLevelEventHandler);
 
 
             bgImg.fitHeightProperty().bind(root.heightProperty());
@@ -146,13 +145,6 @@ public class LevelOne extends Scene {
 
             closeButton.setFitWidth(50);
             closeButton.setFitHeight(50);
-
-            backToMenuButton.setFitWidth(100);
-            backToMenuButton.setFitHeight(100);
-
-            nextLevelButton.setFitWidth(100);
-            nextLevelButton.setFitHeight(100);
-
 
             var menuBox = new StackPane();
             menuBox.getChildren().add(bgImg);
@@ -171,13 +163,6 @@ public class LevelOne extends Scene {
 
             var actionsBox = new HBox();
             actionsBox.setSpacing(30);
-
-            backToMenuButton.setCursor(Cursor.HAND);
-            backToMenuButton.setOnMouseClicked(backToMenuEventHandler);
-
-            nextLevelButton.setCursor(Cursor.HAND);
-            nextLevelButton.setOnMouseClicked(nextLevelEventHandler);
-
 
             actionsBox.getChildren().addAll(backToMenuButton, nextLevelButton);
             actionsBox.setAlignment(Pos.CENTER);
@@ -228,7 +213,9 @@ public class LevelOne extends Scene {
             }
         };
         private final javafx.event.EventHandler<? super MouseEvent> nextLevelEventHandler = (e) -> {
-
+            if (e.getButton() == MouseButton.PRIMARY) {
+                this.close();
+            }
         };
 
     }

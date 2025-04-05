@@ -6,9 +6,9 @@ import javafx.scene.layout.Pane;
 
 import java.util.Objects;
 
-public class StaticPipe extends Pane {
+public class StaticPipeComponent extends Pane {
 
-    public StaticPipe(String path) {
+    public StaticPipeComponent(String path) {
         super();
         var pipeImg = new ImageView(Objects.requireNonNull(MapComponent.class.getResource(path)).toString());
 

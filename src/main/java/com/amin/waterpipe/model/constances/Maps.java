@@ -8,13 +8,13 @@ public class Maps {
             {1, 0, 0, 0, 0},
             {3, 2, 2, 2, 8},
     };
-    private final static int[][] LevelTwoMapTemplate = {
+    public final static int[][] LevelTwoMapTemplate = {
             {7, 0, 0, 0, 0, 0, 0},
             {1, 0, 0, 0, 0, 0, 0},
             {1, 0, 0, 0, 0, 0, 0},
             {3, 2, 2, 2, 5, 0, 0},
-            {7, 0, 0, 0, 0, 0, 0},
             {0, 4, 2, 2, 6, 0, 0},
+            {0, 1, 0, 0, 0, 0, 0},
             {0, 3, 2, 2, 2, 2, 8},
 
     };

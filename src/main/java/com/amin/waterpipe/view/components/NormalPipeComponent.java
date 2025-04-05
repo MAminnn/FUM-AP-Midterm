@@ -15,6 +15,7 @@ import java.util.Objects;
 public class NormalPipeComponent extends Pane {
 
     private final RotateTransition rotationAnimation;
+    private boolean isReverting = false;
 
     private int _clockwiseRotationsPending = 0;
     private int _counterClockwiseRotationsPending = 0;
@@ -79,12 +80,16 @@ public class NormalPipeComponent extends Pane {
 
 
     private void onPrimaryClick() {
+        if (isReverting) {
+            return;
+        }
         rotationAnimation.setByAngle(90);
         _clockwiseRotationsPending += 1;
         if (_counterClockwiseRotationsPending > 0) {
             rotationAnimation.stop();
             rotationAnimation.setOnFinished(e -> {
                 animationComplete(() -> {
+                    isReverting = false;
                     _clockwiseRotationsPending = 0;
                     _counterClockwiseRotationsPending = 0;
                 });
@@ -94,6 +99,7 @@ public class NormalPipeComponent extends Pane {
             var correctModOnNegativeValues = -1 * (rotatedAmount % -90 + -90) % -90;
             rotationAnimation.setByAngle(correctModOnNegativeValues);
             rotationAnimation.play();
+            isReverting = true;
             return;
         }
         rotationAnimation.setOnFinished(e -> {
@@ -114,6 +120,9 @@ public class NormalPipeComponent extends Pane {
     }
 
     private void onSecondaryClick() {
+        if (isReverting) {
+            return;
+        }
         rotationAnimation.setByAngle(-90);
         _counterClockwiseRotationsPending += 1;
         if (_clockwiseRotationsPending > 0) {
@@ -122,6 +131,7 @@ public class NormalPipeComponent extends Pane {
                 animationComplete(() -> {
                     _clockwiseRotationsPending = 0;
                     _counterClockwiseRotationsPending = 0;
+                    isReverting = false;
                 });
             });
             var rotatedAmount = this.getRotate();
@@ -129,6 +139,7 @@ public class NormalPipeComponent extends Pane {
             var correctModOnNegativeValues = -1 * (rotatedAmount % 90 + 90) % 90;
             rotationAnimation.setByAngle(correctModOnNegativeValues);
             rotationAnimation.play();
+            isReverting = true;
             return;
         }
         rotationAnimation.setOnFinished(e -> {

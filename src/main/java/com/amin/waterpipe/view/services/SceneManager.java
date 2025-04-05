@@ -58,16 +58,19 @@ public class SceneManager {
         // Fade out cut scene
         Pane blankWindow = new Pane();
         blankWindow.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene fadeOutCutScene = new Scene(blankWindow, scene.getWidth(), scene.getHeight());
+        Scene fadeOutCutScene = new Scene(blankWindow, _stage.getScene().getWidth(), _stage.getScene().getHeight());
         fadeOutCutScene.setFill(Color.WHITESMOKE);
         _stage.setScene(fadeOutCutScene);
 
         fadeOutTL.setOnFinished(e -> {
 
-            // Display a dark window before the new scene
-            Scene cutScene = new Scene(new Pane(), scene.getWidth(), scene.getHeight());
+            // Display a blank white smoke window before the new scene
 
-            _stage.setScene(cutScene);
+            Pane blankWindow2 = new Pane();
+            blankWindow2.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+            Scene fadeInCutScene = new Scene(blankWindow2, scene.getWidth(), scene.getHeight());
+            fadeInCutScene.setFill(Color.TRANSPARENT);
+            _stage.setScene(fadeInCutScene);
             _stage.sizeToScene();
 
             if (centerOnScreen) {

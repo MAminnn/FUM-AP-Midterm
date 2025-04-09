@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Soup of Justice';
+    src: url('../fonts/soupofjustice.ttf');
+}
+*{
+-fx-font-family: 'Soup of Justice';
+}
+#root{
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+}
+#navbar{
+    -fx-background-image: url("../images/UI/match3/up.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 100%;
+    -fx-background-position: center center;
+    -fx-padding: 80 0 30 0
+}
+#timeBox{
+    -fx-background-image: url("../images/UI/bubble/clock_box.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 100% 90%;
+    -fx-background-position: center center;
+}
+#movesLbl{
+    -fx-color:white-smoke;
+    -fx-font-size: 35;
+}

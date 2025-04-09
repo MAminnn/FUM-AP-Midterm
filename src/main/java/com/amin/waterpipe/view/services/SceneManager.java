@@ -1,15 +1,18 @@
 package com.amin.waterpipe.view.services;
 
 import com.amin.waterpipe.view.scenes.LevelOne;
+import com.amin.waterpipe.view.scenes.LevelTwo;
 import com.amin.waterpipe.view.scenes.Menu;
 import com.amin.waterpipe.view.scenes.SceneType;
-import javafx.animation.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -25,9 +28,6 @@ public class SceneManager {
     private SceneManager(Stage stage) {
         this._stage = stage;
         this._scenes = new HashMap<>();
-
-        this._scenes.put(SceneType.MENU, Menu.initScene());
-        this._scenes.put(SceneType.LEVEL_ONE, LevelOne.initScene());
     }
 
     public static void initialize(Stage stage) throws Exception {
@@ -41,12 +41,27 @@ public class SceneManager {
         return _sceneManager;
     }
 
-    public void switchScene(Scene origin, SceneType sceneType, boolean centerOnScreen, boolean brandNew) {
+    public void switchScene(Scene origin, SceneType sceneType, boolean centerOnScreen, boolean brandNew, boolean clearScene) {
+        if (clearScene) {
+            ((Pane) origin.getRoot()).getChildren().clear();
+        }
         Scene scene;
         if (brandNew) {
             switch (sceneType) {
-                case SceneType.LEVEL_ONE -> scene = LevelOne.initScene();
-                case SceneType.MENU -> scene = Menu.initScene();
+                case SceneType.MENU -> {
+                    scene = Menu.initScene();
+                    this._scenes.put(SceneType.MENU, scene);
+                }
+                case SceneType.LEVEL_ONE -> {
+                    scene = LevelOne.initScene();
+                    this._scenes.put(SceneType.LEVEL_ONE, scene);
+
+                }
+                case SceneType.LEVEL_TWO -> {
+                    scene = LevelTwo.initScene();
+                    this._scenes.put(SceneType.LEVEL_TWO, scene);
+
+                }
                 default -> scene = null;
             }
         } else {

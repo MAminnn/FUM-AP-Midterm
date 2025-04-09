@@ -1,7 +1,6 @@
 package com.amin.waterpipe.model.entities;
 
 import com.amin.waterpipe.model.entities.pipe.Block;
-import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.valueobjects.Coordinate;
 
 public class Map {

@@ -23,11 +23,12 @@ public class NormalPipeComponent extends Pane {
     private final NormalPipe _pipe;
     private Runnable _pipeRotationEventHandler;
 
-    public NormalPipeComponent(String path, NormalPipe pipeEntity) {
+    public NormalPipeComponent(NormalPipe pipeEntity) {
         super();
         this._pipe = pipeEntity;
 
-        var pipeImg = new ImageView(Objects.requireNonNull(MapComponent.class.getResource(path)).toString());
+        var path = "/images/pipes/" + pipeEntity.getPipeType() + ".png";
+        var pipeImg = new ImageView(Objects.requireNonNull(this.getClass().getResource(path)).toString());
 
         pipeImg.fitWidthProperty().bind(this.widthProperty());
         pipeImg.fitHeightProperty().bind(this.heightProperty());

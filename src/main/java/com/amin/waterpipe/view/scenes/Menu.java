@@ -5,14 +5,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.ArcType;
 
 public class Menu extends Scene {
     private Menu(Parent parent, double width, double height, Paint fill) {
@@ -29,10 +28,18 @@ public class Menu extends Scene {
                 Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY
         )));
         btn.setOnAction(e -> {
-            SceneManager.getInstance().switchScene(instance, SceneType.LEVEL_ONE, true, true);
+            SceneManager.getInstance().switchScene(instance, SceneType.LEVEL_ONE, true, true, false);
+        });
+        var btn2 = new Button("Enter Level 2");
+        btn2.setBackground(new Background(new BackgroundFill(
+                Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY
+        )));
+        btn2.setOnAction(e -> {
+            SceneManager.getInstance().switchScene(instance, SceneType.LEVEL_TWO, true, true, false);
         });
 
         buttonList.getChildren().add(btn);
+        buttonList.getChildren().add(btn2);
 
         root.getChildren().add(buttonList);
         root.setScaleX(0.5);

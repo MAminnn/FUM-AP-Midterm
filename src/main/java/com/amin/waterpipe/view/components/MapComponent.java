@@ -1,11 +1,15 @@
 package com.amin.waterpipe.view.components;
 
 import com.amin.waterpipe.model.entities.pipe.Block;
+import com.amin.waterpipe.model.entities.pipe.IOPipe;
 import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.enums.PipeType;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 import java.util.ArrayList;
 
@@ -15,9 +19,13 @@ public class MapComponent extends GridPane {
     private final ArrayList<Block> _blocks;
     private Runnable _winCheckHandler;
 
-    public MapComponent(ArrayList<Block> blocks) {
+    public MapComponent(ArrayList<Block> blocks, ObservableValue<? extends Number> maxWidthProperty,
+                        ObservableValue<? extends Number> maxHeightProperty) {
 
         this._blocks = blocks;
+
+        maxWidthProperty().bind(maxWidthProperty);
+        maxHeightProperty().bind(maxHeightProperty);
 
         this.setVgap(0);
         this.setHgap(0);
@@ -45,54 +53,20 @@ public class MapComponent extends GridPane {
 
         for (Block block : blocks) {
             if (block.get_pipe() != null) {
-                var pipeImgPath = "/images/pipes/" + block.get_pipe().getPipeType().toString() + ".png";
+
                 Node pipe;
                 if (block.get_pipe().getPipeType().equals(PipeType.DESTINATION) ||
                         block.get_pipe().getPipeType().equals(PipeType.ORIGIN)) {
-                    pipe = new StaticPipeComponent(pipeImgPath);
+                    pipe = new IOPipeComponent((IOPipe) block.get_pipe());
                 } else {
-                    pipe = new NormalPipeComponent(pipeImgPath, (NormalPipe) block.get_pipe());
+                    pipe = new NormalPipeComponent((NormalPipe) block.get_pipe());
                 }
                 this.add(pipe, block.getCoordinate().y(), block.getCoordinate().x());
             }
         }
-
-
-//        var demo = "/images/pipes/" + blocks.get(0).get_pipe().getPipeType().toString() + ".png";
-//        var pipeImg = new ImageView(MapComponent.class.getResource(demo).toString());
-//        pipeImg.setPreserveRatio(true);
-//        var pane = new Pane();
-//
-//
-////        pipeImg.fitWidthProperty().bind(pane.widthProperty());
-////        pipeImg.fitHeightProperty().bind(pane.heightProperty());
-////        pipeImg.setPreserveRatio(true);
-//
-//        pane.getChildren().add(pipeImg);
-//        this.add(pane, blocks.get(0).getCoordinate().y(), blocks.get(0).getCoordinate().x(), 1, 1);
-//
-//        demo = "/images/pipes/" + blocks.get(5).get_pipe().getPipeType().toString() + ".png";
-//        pipeImg = new ImageView(MapComponent.class.getResource(demo).toString());
-//        pipeImg.setPreserveRatio(true);
-//        pane = new Pane();
-//
-//
-////        pipeImg.fitWidthProperty().bind(pane.widthProperty());
-////        pipeImg.fitHeightProperty().bind(pane.heightProperty());
-////        pipeImg.setPreserveRatio(true);
-//
-//        pane.getChildren().add(pipeImg);
-//        this.add(pane, blocks.get(5).getCoordinate().y(), blocks.get(5).getCoordinate().x(), 1, 1);
-//
-//        demo = "/images/pipes/" + blocks.get(6).get_pipe().getPipeType().toString() + ".png";
-//        pipeImg = new ImageView(MapComponent.class.getResource(demo).toString());
-//        pane = new Pane();
-//
-//        pane.getChildren().add(pipeImg);
-//        this.add(pane, 1, 1, 1, 1);
     }
 
-    public void setWinCheckHandler(Runnable winCheckHandler) {
+    public void setRotationEventHandler(Runnable winCheckHandler) {
         this._winCheckHandler = winCheckHandler;
         this.getChildren().forEach(p -> {
             if (p instanceof NormalPipeComponent) {

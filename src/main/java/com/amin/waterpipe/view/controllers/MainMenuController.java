@@ -15,6 +15,6 @@ public class MainMenuController {
 
     @FXML
     protected void onEnterTheGameClick(ActionEvent event) throws IOException {
-        SceneManager.getInstance().switchScene(welcomeText.getScene(), SceneType.MENU, true, true);
+        SceneManager.getInstance().switchScene(welcomeText.getScene(), SceneType.MENU, true, true,false);
     }
 }

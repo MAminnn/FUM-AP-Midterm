@@ -1,9 +1,11 @@
 package com.amin.waterpipe.view.scenes;
 
 
+import com.amin.waterpipe.controller.LevelOneController;
 import com.amin.waterpipe.model.entities.Map;
 import com.amin.waterpipe.model.entities.pipe.Block;
 import com.amin.waterpipe.model.entities.pipe.NormalPipe;
+import com.amin.waterpipe.model.enums.PipeType;
 import com.amin.waterpipe.view.components.ImageButtonComponent;
 import com.amin.waterpipe.view.components.MapComponent;
 import com.amin.waterpipe.view.services.SceneManager;
@@ -26,49 +28,39 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Random;
 
 public class LevelOne extends Scene {
-    private Block[] _blocks;
-    private Map _correctMap;
-    private com.amin.waterpipe.model.entities.level.LevelOne _model;
+
+    private static Image bgImage;
+    private final LevelOneController _controller;
 
     private LevelOne(Parent parent, double width, double height) {
         super(parent, width, height);
-    }
-
-    private Block[] loadBlocks() {
-        this._model = new com.amin.waterpipe.model.entities.level.LevelOne();
-        var map = this._model.getMap();
-        var originalBlocks = new Block[map.getBlocks().length];
-        for (int i = 0; i < originalBlocks.length; i++) {
-            originalBlocks[i] = Block.copy(map.getBlocks()[i]);
-        }
-        this._correctMap = new Map(map.Width, map.Height, originalBlocks);
-        this._blocks = map.getBlocks();
-        this.randomInitialization();
-        return map.getBlocks();
+        this._controller = new LevelOneController();
     }
 
     public static LevelOne initScene() {
-        var root = new VBox();
+        var root = new StackPane();
         var instance = new LevelOne(root, 1280, 768);
-        var background = new BackgroundImage(new Image(Objects.requireNonNull(LevelOne.class.getResource("/images/background.jpg")).toString()), BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
-                new BackgroundSize(root.getWidth(), root.getHeight(), true, true, true, true));
-        root.setBackground(new Background(background));
+        new Thread(() -> {
+            bgImage = new Image(Objects.requireNonNull(LevelOne.class.getResource("/gifs/background.gif")).toString(),
+                    0, 0, false, false, true);
+            var background = new BackgroundImage(bgImage, BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+                    new BackgroundSize(root.getWidth(), root.getHeight(), true, true, true, true));
+            root.setBackground(new Background(background));
 
-        var blocks = instance.loadBlocks();
-        var map = new MapComponent(new ArrayList<>(Arrays.asList(blocks)));
-        map.setWinCheckHandler(() -> {
-            var isPositionWinning = Arrays.stream(instance._blocks).allMatch(b ->
-            {
-                if (b.get_pipe() == null) {
-                    return true;
-                }
-                return b.get_pipe().getPipeType().equals(instance._correctMap.getBlock(b.getCoordinate()).get_pipe().getPipeType());
+        }).start();
 
-            });
+        var blocks = instance._controller.getBlocks();
+        var map = new MapComponent(new ArrayList<>(Arrays.asList(blocks)), instance.widthProperty().multiply(0.7),
+                instance.heightProperty().multiply(0.7));
+        map.setRotationEventHandler(() -> {
+            var isPositionWinning = instance._controller.isPositionWinning();
             if (isPositionWinning) {
 
                 instance.playerWin();
@@ -78,32 +70,26 @@ public class LevelOne extends Scene {
             }
 
         });
+        root.setAlignment(Pos.CENTER);
+
         root.getChildren().add(map);
-        root.setPadding(new Insets(50, 40, 50, 40));
         return instance;
     }
 
-    private void randomInitialization() {
-        Random random = new Random();
-        for (Block block : this._blocks) {
-            if (block.get_pipe() instanceof NormalPipe) {
-                var rotationsCount = random.nextInt(4);
-                for (int i = 0; i < rotationsCount; i++) {
-                    ((NormalPipe) block.get_pipe()).rotateClockWise();
-                }
-            }
-        }
-    }
 
     private void playerWin() {
         var winningPopup = new WinningPopup((Stage) this.getWindow());
-
+        winningPopup.show();
     }
 
     public static class WinningPopup extends Stage {
+
+        private Stage _primaryStage;
+
         public WinningPopup(Stage primaryStage) {
             super();
 
+            this._primaryStage = primaryStage;
 
             this.initModality(Modality.APPLICATION_MODAL);
             this.initOwner(primaryStage);
@@ -202,19 +188,28 @@ public class LevelOne extends Scene {
             this.setOnCloseRequest(e -> {
                 primaryStage.close();
             });
-
-            this.show();
         }
 
         private final javafx.event.EventHandler<? super MouseEvent> backToMenuEventHandler = (e) -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 this.close();
-                SceneManager.getInstance().switchScene(this.getScene(), SceneType.MENU, true, false);
+                bgImage.cancel();
+                bgImage = null;
+                ((Pane) _primaryStage.getScene().getRoot()).getBackground().getImages().getFirst().getImage().cancel();
+                ((Pane) _primaryStage.getScene().getRoot()).setBackground(Background.EMPTY);
+                System.gc();
+                SceneManager.getInstance().switchScene(_primaryStage.getScene(), SceneType.MENU, true, false, true);
             }
         };
         private final javafx.event.EventHandler<? super MouseEvent> nextLevelEventHandler = (e) -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 this.close();
+                bgImage.cancel();
+                bgImage = null;
+                ((Pane) _primaryStage.getScene().getRoot()).getBackground().getImages().getFirst().getImage().cancel();
+                ((Pane) _primaryStage.getScene().getRoot()).setBackground(Background.EMPTY);
+                System.gc();
+                SceneManager.getInstance().switchScene(_primaryStage.getScene(), SceneType.LEVEL_TWO, true, true, true);
             }
         };
 

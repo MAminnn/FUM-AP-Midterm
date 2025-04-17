@@ -1,5 +1,6 @@
 package com.amin.waterpipe.model.entities.pipe;
 
+import com.amin.waterpipe.common.PipeTraverseException;
 import com.amin.waterpipe.model.enums.PipeType;
 import com.amin.waterpipe.model.valueobjects.Coordinate;
 
@@ -24,7 +25,7 @@ public abstract class BasePipe {
         return _coordinate;
     }
 
-    public abstract Coordinate nextCoordinate(Coordinate inputCoordinate);
+    public abstract Coordinate traverse(Coordinate inputCoordinate) throws PipeTraverseException;
 
     protected abstract BasePipe copy();
 

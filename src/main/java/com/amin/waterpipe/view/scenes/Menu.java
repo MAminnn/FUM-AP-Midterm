@@ -38,8 +38,17 @@ public class Menu extends Scene {
             SceneManager.getInstance().switchScene(instance, SceneType.LEVEL_TWO, true, true, false);
         });
 
+        var btn3 = new Button("Enter Level 3");
+        btn3.setBackground(new Background(new BackgroundFill(
+                Color.DARKGREY, CornerRadii.EMPTY, Insets.EMPTY
+        )));
+        btn3.setOnAction(e -> {
+            SceneManager.getInstance().switchScene(instance, SceneType.LEVEL_THREE, true, true, false);
+        });
+
         buttonList.getChildren().add(btn);
         buttonList.getChildren().add(btn2);
+        buttonList.getChildren().add(btn3);
 
         root.getChildren().add(buttonList);
         root.setScaleX(0.5);

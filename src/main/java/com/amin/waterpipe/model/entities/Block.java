@@ -1,10 +1,11 @@
-package com.amin.waterpipe.model.entities.pipe;
+package com.amin.waterpipe.model.entities;
 
+import com.amin.waterpipe.model.entities.pipe.BasePipe;
 import com.amin.waterpipe.model.valueobjects.Coordinate;
 
 public class Block {
     private final Coordinate _coordinate;
-    private final BasePipe _pipe;
+    private BasePipe _pipe;
 
     public Block(Coordinate coordinate, BasePipe pipe) {
         _coordinate = coordinate;
@@ -17,6 +18,10 @@ public class Block {
 
     public BasePipe get_pipe() {
         return _pipe;
+    }
+
+    public void setPipe(BasePipe pipe) {
+        this._pipe = pipe;
     }
 
     public static Block copy(Block block) {

@@ -1,11 +1,6 @@
 package com.amin.waterpipe.view.scenes;
 
-import com.amin.waterpipe.controller.LevelOneController;
 import com.amin.waterpipe.controller.LevelTwoController;
-import com.amin.waterpipe.model.entities.Map;
-import com.amin.waterpipe.model.entities.pipe.Block;
-import com.amin.waterpipe.model.entities.pipe.NormalPipe;
-import com.amin.waterpipe.model.enums.PipeType;
 import com.amin.waterpipe.view.components.ImageButtonComponent;
 import com.amin.waterpipe.view.components.MapComponent;
 import com.amin.waterpipe.view.services.SceneManager;
@@ -37,7 +32,6 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 public class LevelTwo extends Scene {
     private final LevelTwoController _controller;
@@ -258,7 +252,13 @@ public class LevelTwo extends Scene {
             }
         };
         private final javafx.event.EventHandler<? super MouseEvent> nextLevelEventHandler = (e) -> {
-
+            if (e.getButton() == MouseButton.PRIMARY) {
+                this.close();
+//                ((Pane) _primaryStage.getScene().getRoot()).getBackground().getImages().getFirst().getImage().cancel();
+//                ((Pane) _primaryStage.getScene().getRoot()).setBackground(Background.EMPTY);
+//                System.gc();
+                SceneManager.getInstance().switchScene(_primaryStage.getScene(), SceneType.LEVEL_THREE, true, true, true);
+            }
         };
 
     }

@@ -9,16 +9,18 @@ import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.enums.PipeType;
 import com.amin.waterpipe.model.valueobjects.Coordinate;
 
-public class LevelOne implements BaseLevel {
+public class LevelThree implements BaseLevel {
 
     private final Map _map;
 
-    public LevelOne() {
-        this._map = mapInitialization();
+    private final int dimension = 0;
+
+    public LevelThree() {
+        _map = mapInitialization();
     }
 
     private Map mapInitialization() {
-        int[][] mapTemplate = Maps.LevelOneMapTemplate;
+        int[][] mapTemplate = Maps.LevelThreeMapSeed;
         int width = mapTemplate.length; // First dim
         int height = mapTemplate[0].length; // Second dim
         var blocks = new Block[width * height];

@@ -4,64 +4,9 @@ import com.amin.waterpipe.common.PipeTraverseException;
 import com.amin.waterpipe.model.enums.PipeType;
 import com.amin.waterpipe.model.valueobjects.Coordinate;
 
-public class NormalPipe extends BasePipe {
-
-    public NormalPipe(PipeType pipeType, Coordinate coordinate) {
+public class FrozenPipe extends BasePipe {
+    public FrozenPipe(PipeType pipeType, Coordinate coordinate) {
         super(pipeType, coordinate);
-    }
-
-    public void rotateClockWise() {
-        switch (this._pipeType) {
-            case PipeType.HORIZONTAL:
-                this.setPipeType(PipeType.VERTICAL);
-                break;
-            case PipeType.VERTICAL:
-                this.setPipeType(PipeType.HORIZONTAL);
-                break;
-            case PipeType.LEFT_UP:
-                this.setPipeType(PipeType.RIGHT_UP);
-                break;
-            case PipeType.RIGHT_UP:
-                this.setPipeType(PipeType.RIGHT_DOWN);
-                break;
-            case PipeType.RIGHT_DOWN:
-                this.setPipeType(PipeType.LEFT_DOWN);
-                break;
-            case PipeType.LEFT_DOWN:
-                this.setPipeType(PipeType.LEFT_UP);
-                break;
-        }
-
-    }
-
-    public void rotateCounterClockWise() {
-        switch (this._pipeType) {
-            case PipeType.HORIZONTAL:
-                this.setPipeType(PipeType.VERTICAL);
-                break;
-
-            case PipeType.VERTICAL:
-                this.setPipeType(PipeType.HORIZONTAL);
-                break;
-
-            case PipeType.RIGHT_UP:
-                this.setPipeType(PipeType.LEFT_UP);
-                break;
-
-            case PipeType.RIGHT_DOWN:
-                this.setPipeType(PipeType.RIGHT_UP);
-                break;
-
-            case PipeType.LEFT_DOWN:
-                this.setPipeType(PipeType.RIGHT_DOWN);
-                break;
-
-            case PipeType.LEFT_UP:
-                this.setPipeType(PipeType.LEFT_DOWN);
-                break;
-        }
-
-
     }
 
     @Override

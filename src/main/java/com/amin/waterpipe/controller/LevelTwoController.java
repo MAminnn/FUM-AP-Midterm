@@ -1,9 +1,8 @@
 package com.amin.waterpipe.controller;
 
 import com.amin.waterpipe.model.entities.Map;
-import com.amin.waterpipe.model.entities.level.LevelOne;
 import com.amin.waterpipe.model.entities.level.LevelTwo;
-import com.amin.waterpipe.model.entities.pipe.Block;
+import com.amin.waterpipe.model.entities.Block;
 import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.enums.PipeType;
 

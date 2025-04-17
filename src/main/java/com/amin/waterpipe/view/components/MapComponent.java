@@ -1,6 +1,7 @@
 package com.amin.waterpipe.view.components;
 
-import com.amin.waterpipe.model.entities.pipe.Block;
+import com.amin.waterpipe.model.entities.Block;
+import com.amin.waterpipe.model.entities.pipe.FrozenPipe;
 import com.amin.waterpipe.model.entities.pipe.IOPipe;
 import com.amin.waterpipe.model.entities.pipe.NormalPipe;
 import com.amin.waterpipe.model.enums.PipeType;
@@ -55,13 +56,15 @@ public class MapComponent extends GridPane {
             if (block.get_pipe() != null) {
 
                 Node pipe;
-                if (block.get_pipe().getPipeType().equals(PipeType.DESTINATION) ||
-                        block.get_pipe().getPipeType().equals(PipeType.ORIGIN)) {
+                if (block.get_pipe() instanceof IOPipe) {
                     pipe = new IOPipeComponent((IOPipe) block.get_pipe());
-                } else {
+                } else if (block.get_pipe() instanceof NormalPipe) {
                     pipe = new NormalPipeComponent((NormalPipe) block.get_pipe());
+                } else //block.get_pipe() instanceof FrozenPipe)
+                {
+                    pipe = new FrozenPipeComponent((FrozenPipe) block.get_pipe());
                 }
-                this.add(pipe, block.getCoordinate().y(), block.getCoordinate().x());
+                this.add(pipe, block.getCoordinate().x(), rowsNumber - block.getCoordinate().y());
             }
         }
     }

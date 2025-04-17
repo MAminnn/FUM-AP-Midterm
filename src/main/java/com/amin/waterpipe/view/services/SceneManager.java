@@ -1,9 +1,6 @@
 package com.amin.waterpipe.view.services;
 
-import com.amin.waterpipe.view.scenes.LevelOne;
-import com.amin.waterpipe.view.scenes.LevelTwo;
-import com.amin.waterpipe.view.scenes.Menu;
-import com.amin.waterpipe.view.scenes.SceneType;
+import com.amin.waterpipe.view.scenes.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
@@ -60,6 +57,11 @@ public class SceneManager {
                 case SceneType.LEVEL_TWO -> {
                     scene = LevelTwo.initScene();
                     this._scenes.put(SceneType.LEVEL_TWO, scene);
+
+                }
+                case SceneType.LEVEL_THREE -> {
+                    scene = LevelThree.initScene();
+                    this._scenes.put(SceneType.LEVEL_THREE, scene);
 
                 }
                 default -> scene = null;

@@ -11,8 +11,24 @@ public class IOPipe extends BasePipe {
     }
 
     @Override
-    public Coordinate nextCoordinate(Coordinate inputCoordinate) {
-        return null;
+    public Coordinate traverse(Coordinate inputCoordinate) {
+        switch (this.getPipeType()) {
+            case VERTICAL_ORIGIN -> {
+                return inputCoordinate.Down().Down();
+            }
+            case HORIZONTAL_DESTINATION -> {
+                return inputCoordinate.Right().Right();
+            }
+            case HORIZONTAL_ORIGIN -> {
+                return inputCoordinate.Down().Down();
+            }
+            case VERTICAL_DESTINATION -> {
+                return inputCoordinate.Right().Right();
+            }
+            default -> {
+                return null;
+            }
+        }
     }
 
     @Override

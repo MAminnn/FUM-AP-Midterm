@@ -2,6 +2,7 @@ package com.amin.waterpipe.view.scenes;
 
 
 import com.amin.waterpipe.controller.LevelOneController;
+import com.amin.waterpipe.controller.LevelThreeController;
 import com.amin.waterpipe.view.components.ImageButtonComponent;
 import com.amin.waterpipe.view.components.MapComponent;
 import com.amin.waterpipe.view.services.SceneManager;
@@ -27,20 +28,21 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 
-public class LevelOne extends Scene {
+public class LevelThree extends Scene {
 
     private static Image bgImage;
-    private final LevelOneController _controller;
+    private final LevelThreeController _controller;
 
-    private LevelOne(Parent parent, double width, double height) {
+    private LevelThree(Parent parent, double width, double height) {
         super(parent, width, height);
-        this._controller = new LevelOneController();
+        this._controller = new LevelThreeController();
     }
 
-    public static LevelOne initScene() {
+    public static LevelThree initScene() {
         var root = new StackPane();
-        var instance = new LevelOne(root, 1280, 768);
+        var instance = new LevelThree(root, 1280, 768);
         new Thread(() -> {
             bgImage = new Image(Objects.requireNonNull(LevelOne.class.getResource("/gifs/background.gif")).toString(),
                     0, 0, false, false, true);
